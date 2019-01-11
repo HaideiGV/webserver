@@ -5,10 +5,12 @@
 -export([stop/1]).
 
 start(_Type, _Args) ->
+	erlydtl:compile_dir("templates", templates, [{out_dir,"../ebin/"}]),
 	Dispatch = cowboy_router:compile([
 		{'_', [
 			{"/", hello_handler, []}, 
-			{"/num", number_handler, []}
+			{"/num", number_handler, []},
+			{"/dtl", dtl_handler, []}
 		]}
 	]),
 	{ok, _} = cowboy:start_clear(
